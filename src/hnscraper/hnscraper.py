@@ -18,28 +18,34 @@ class HNScraper:
         self.nav_home()
         
     def nav_home(self):
+        """Go to Hacker News home page"""
         self.br.open("http://news.ycombinator.com/")
         
     def nav_user_page(self):
+        """Go to HN user page"""
         self.nav_home()
         L = list(self.br.links())
         logout_index = get_unique([i for i,l in enumerate(L) if l.text=='logout'])
         self.br.follow_link(L[logout_index-1])
         
     def nav_saved_stories(self):
+        """Go to HN user's saved story page - list of contributed stories, plus upvoted stories"""
         self.nav_user_page()
         saved_stories_link = get_unique(self.br.links(text_regex='saved stories'))
         self.br.follow_link(saved_stories_link)
            
     def nav_more(self):
+        """Go to next page of stories"""
         more_link = get_unique(self.br.links(text='More'))
         self.br.follow_link(more_link)
         
     def more_available(self):
+        """Returns true if there is a next page"""
         more_links = self.br.links(text='More')
         return len(list(more_links))==1
         
     def login_with_google(self, username, password):
+        """Login using clickpass and a google account"""
         self.nav_home()        
         br = self.br
         
@@ -67,9 +73,11 @@ class HNScraper:
         br.submit()
 
     def get_current_page_text(self):
+        """Get the text of the current page"""
         return self.br.response().read()
     
     def get_current_page_stories(self):
+        """Pull the stories from the current page into a list of dictionaries, one per story."""
         text = self.get_current_page_text()
         soup = BeautifulSoup(text)
         s = {}
