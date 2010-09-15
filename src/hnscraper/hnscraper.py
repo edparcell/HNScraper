@@ -86,13 +86,15 @@ class HNScraper:
                             ord = int(ord[:-1])
                         a_s = tds[2]('a')
                         spans = tds[2]('span')
-                        if len(a_s) == 1 and len(spans) == 1:
+                        if len(a_s) >= 1 and len(spans) <= 1:
                             a = a_s[0]
-                            span = spans[0]
                             link =  a['href']
                             title = a.string
-                            comhead = span.string
-                            s = {'ord': ord ,'link': link, 'title': title, 'comhead': comhead}
+                            s = {'ord': ord ,'link': link, 'title': title}
+                            if len(spans)==1:
+                                span = spans[0]
+                                comhead = span.string
+                                s.update(comhead=comhead)
                             continue
             if len(tr) == 2:
                 tds = tr('td')
