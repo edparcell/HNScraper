@@ -1,0 +1,10 @@
+[Login]
+method=google
+username=YOURUSERNAME
+password=YOURPASSWORD
+
+[Template]
+file=hn-saved.mako
+
+[Output]
+file=/var/www/hn-saved.html
