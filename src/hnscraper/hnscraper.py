@@ -37,7 +37,7 @@ class HNScraper:
         
     def more_available(self):
         more_links = self.br.links(text='More')
-        return len(more_links==1)
+        return len(list(more_links))==1
         
     def login_with_google(self, username, password):
         self.nav_home()        
